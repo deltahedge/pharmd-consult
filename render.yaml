@@ -15,10 +15,11 @@ services:
       - key: CORS_ORIGINS
         value: '["https://pharmd-consult-frontend.onrender.com"]'
 
-  - type: static
+  - type: web
     name: pharmd-consult-frontend
-    staticPublishPath: ./frontend/dist
+    env: static
     buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: ./frontend/dist
     routes:
       - type: rewrite
         source: /*
