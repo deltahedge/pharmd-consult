@@ -15,13 +15,18 @@ const Login: React.FC = () => {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log('handleSubmit called'); // Debug log
     e.preventDefault();
+    console.log('preventDefault called'); // Debug log
     setIsLoading(true);
     setError('');
 
     try {
+      console.log('Calling login with:', email); // Debug log
       await login(email, password);
+      console.log('Login successful'); // Debug log
     } catch (err: any) {
+      console.error('Login error:', err); // Debug log
       setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
