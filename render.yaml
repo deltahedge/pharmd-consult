@@ -4,7 +4,6 @@ services:
     env: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
-    plan: free
     healthCheckPath: /health
     envVars:
       - key: SECRET_KEY
@@ -16,12 +15,10 @@ services:
       - key: CORS_ORIGINS
         value: '["https://pharmd-consult-frontend.onrender.com"]'
 
-  - type: web
+  - type: static
     name: pharmd-consult-frontend
-    env: static
     staticPublishPath: ./frontend/dist
     buildCommand: cd frontend && npm ci && npm run build
-    plan: free
     routes:
       - type: rewrite
         source: /*
@@ -33,4 +30,3 @@ services:
 databases:
   - name: pharmd-consult-db
     databaseName: pharmdconsult
-    plan: free
