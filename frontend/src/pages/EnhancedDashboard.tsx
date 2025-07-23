@@ -26,17 +26,17 @@ const EnhancedDashboard: React.FC = () => {
   const navigate = useNavigate();
 
   // Fetch real data
-  const { data: reconciliations, isLoading: reconciliationsLoading } = useQuery({
+  const { data: reconciliations, isLoading: reconciliationsLoading } = useQuery<Reconciliation[]>({
     queryKey: ['reconciliations'],
     queryFn: () => apiClient.getReconciliations(),
   });
 
-  const { data: patients, isLoading: patientsLoading } = useQuery({
+  const { data: patients, isLoading: patientsLoading } = useQuery<Patient[]>({
     queryKey: ['patients'],
     queryFn: () => apiClient.getPatients(),
   });
 
-  const { data: medications, isLoading: medicationsLoading } = useQuery({
+  const { data: medications, isLoading: medicationsLoading } = useQuery<Medication[]>({
     queryKey: ['medications'],
     queryFn: () => apiClient.getMedications(),
   });
