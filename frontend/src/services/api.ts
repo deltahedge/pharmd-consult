@@ -17,6 +17,10 @@ import type {
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const API_VERSION = '/api/v1';
 
+// Debug logging - remove after fixing
+console.log('API_BASE_URL:', API_BASE_URL);
+console.log('Environment variables:', import.meta.env);
+
 class ApiClient {
   private client: AxiosInstance;
 
