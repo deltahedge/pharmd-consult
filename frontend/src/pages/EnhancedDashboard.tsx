@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
   Users,
-  Pill,
   ClipboardList,
   AlertTriangle,
   CheckCircle,
@@ -13,8 +12,6 @@ import {
   Camera,
   TrendingUp,
   Activity,
-  ArrowRight,
-  Calendar,
   Target,
   Award,
   Zap,

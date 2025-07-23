@@ -174,7 +174,7 @@ const DashboardCharts: React.FC<DashboardChartsProps> = ({
               paddingAngle={5}
               dataKey="value"
             >
-              {statusDistribution.map((entry, index) => (
+              {statusDistribution.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={CHART_COLORS.status[index % CHART_COLORS.status.length]} />
               ))}
             </Pie>

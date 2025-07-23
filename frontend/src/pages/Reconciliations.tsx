@@ -14,7 +14,7 @@ import {
   Play
 } from 'lucide-react';
 import { apiClient } from '../services/api';
-import type { Reconciliation, ReconciliationCreate, Patient } from '../types/api';
+import type { ReconciliationCreate, Patient } from '../types/api';
 
 const Reconciliations: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -226,7 +226,7 @@ const Reconciliations: React.FC = () => {
                             Reconciliation #{reconciliation.id}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {reconciliation.total_medications} medications
+                            {reconciliation.total_medications || 0} medications
                           </div>
                         </div>
                       </div>
@@ -250,14 +250,14 @@ const Reconciliations: React.FC = () => {
                           <div 
                             className="bg-blue-600 h-2 rounded-full" 
                             style={{ 
-                              width: `${reconciliation.total_medications > 0 
-                                ? (reconciliation.approved_medications / reconciliation.total_medications) * 100 
+                              width: `${(reconciliation.total_medications || 0) > 0 
+                                ? ((reconciliation.approved_medications || 0) / (reconciliation.total_medications || 1)) * 100 
                                 : 0}%` 
                             }}
                           />
                         </div>
                         <span className="text-xs text-gray-600">
-                          {reconciliation.approved_medications}/{reconciliation.total_medications}
+                          {reconciliation.approved_medications || 0}/{reconciliation.total_medications || 0}
                         </span>
                       </div>
                     </td>

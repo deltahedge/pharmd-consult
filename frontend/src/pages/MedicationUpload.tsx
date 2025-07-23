@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useDropzone } from 'react-dropzone';
 import { 
   Camera, 
-  Upload, 
   Image as ImageIcon, 
   CheckCircle, 
   AlertCircle,
@@ -13,12 +12,11 @@ import {
   User,
   Pill,
   Eye,
-  Download,
   Loader,
   RefreshCw
 } from 'lucide-react';
 import { apiClient } from '../services/api';
-import type { Patient, MedicationCreate, ImageUploadResponse } from '../types/api';
+import type { MedicationCreate, ImageUploadResponse } from '../types/api';
 
 interface ProcessedMedication extends MedicationCreate {
   id?: number;
@@ -60,7 +58,7 @@ const MedicationUpload: React.FC = () => {
   });
 
   const uploadMutation = useMutation({
-    mutationFn: ({ file, patientId }: { file: File; patientId?: number }) => 
+    mutationFn: ({ file }: { file: File; patientId?: number }) => 
       apiClient.uploadImage(file),
     onMutate: () => {
       setUploadState(prev => ({ ...prev, uploading: true, error: null }));
@@ -107,7 +105,7 @@ const MedicationUpload: React.FC = () => {
   const transformOCRToMedications = (ocrResult: any, patientId: number | null): ProcessedMedication[] => {
     if (!ocrResult.suggested_medications || !patientId) return [];
     
-    return ocrResult.suggested_medications.map((med: any, index: number) => ({
+    return ocrResult.suggested_medications.map((med: any) => ({
       patient_id: patientId,
       name: med.name || '',
       generic_name: med.generic_name || '',

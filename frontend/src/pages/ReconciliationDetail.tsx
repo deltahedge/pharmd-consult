@@ -12,12 +12,10 @@ import {
   Calendar,
   Pill,
   FileText,
-  Clock,
-  Check,
-  X
+  Check
 } from 'lucide-react';
 import { apiClient } from '../services/api';
-import type { Medication, MedicationCreate } from '../types/api';
+import type { Medication, MedicationCreate, Reconciliation } from '../types/api';
 
 interface ReconciliationSummary {
   reconciliation: {
@@ -71,9 +69,9 @@ const ReconciliationDetail: React.FC = () => {
   });
 
   const { data: medications } = useQuery({
-    queryKey: ['medications', reconciliationData?.reconciliation.patient_id],
-    queryFn: () => apiClient.getMedications(reconciliationData?.reconciliation.patient_id),
-    enabled: !!reconciliationData?.reconciliation.patient_id,
+    queryKey: ['medications', reconciliationData?.patient_id],
+    queryFn: () => apiClient.getMedications(reconciliationData?.patient_id),
+    enabled: !!reconciliationData?.patient_id,
   });
 
   const updateMedicationMutation = useMutation({
@@ -104,7 +102,7 @@ const ReconciliationDetail: React.FC = () => {
 
   React.useEffect(() => {
     if (reconciliationData) {
-      setReconciliationNotes(reconciliationData.reconciliation.notes || '');
+      setReconciliationNotes(reconciliationData.notes || '');
     }
   }, [reconciliationData]);
 
@@ -221,7 +219,7 @@ const ReconciliationDetail: React.FC = () => {
     );
   }
 
-  const { reconciliation, patient_name, provider_name } = reconciliationData;
+  const { patient_name, provider_name } = reconciliationData;
   const approvedCount = Object.values(reviewState).filter(state => state.approved).length;
   const reviewedCount = Object.keys(reviewState).length;
   const totalMedications = medications?.length || 0;

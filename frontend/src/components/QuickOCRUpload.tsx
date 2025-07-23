@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { Camera, Upload, Loader, CheckCircle, AlertCircle } from 'lucide-react';
+import { Camera, Loader, CheckCircle, AlertCircle } from 'lucide-react';
 import { apiClient } from '../services/api';
 
 interface QuickOCRUploadProps {
@@ -16,7 +16,6 @@ interface QuickOCRUploadProps {
 
 const QuickOCRUpload: React.FC<QuickOCRUploadProps> = ({ 
   onMedicationExtracted, 
-  patientId,
   className = "" 
 }) => {
   const [dragActive, setDragActive] = useState(false);

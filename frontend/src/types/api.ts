@@ -70,6 +70,7 @@ export interface Medication {
   ndc_number?: string;
   last_filled?: string;
   notes?: string;
+  ocr_confidence?: number;
   created_at: string;
   updated_at: string;
 }
@@ -95,6 +96,9 @@ export interface Reconciliation {
   notes?: string;
   approved_medications?: number;
   conflicts_found?: number;
+  total_medications?: number;
+  patient_name?: string;
+  provider_name?: string;
   created_at: string;
   updated_at: string;
   completed_at?: string;
