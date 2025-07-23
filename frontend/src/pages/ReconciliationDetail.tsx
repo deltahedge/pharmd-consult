@@ -15,31 +15,7 @@ import {
   Check
 } from 'lucide-react';
 import { apiClient } from '../services/api';
-import type { Medication, MedicationCreate, Reconciliation } from '../types/api';
-
-interface ReconciliationSummary {
-  reconciliation: {
-    id: number;
-    patient_id: number;
-    provider_id: number;
-    status: string;
-    total_medications: number;
-    approved_medications: number;
-    conflicts_found: number;
-    notes: string | null;
-    created_at: string;
-    completed_at: string | null;
-  };
-  patient_name: string;
-  provider_name: string;
-  medications: Array<{
-    id: number;
-    name: string;
-    dosage?: string;
-    frequency?: string;
-    source: string;
-  }>;
-}
+import type { Medication, MedicationCreate } from '../types/api';
 
 interface MedicationReviewState {
   [medicationId: number]: {
@@ -237,13 +213,13 @@ const ReconciliationDetail: React.FC = () => {
           </button>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              Reconciliation #{reconciliation.id}
+              Reconciliation #{reconciliationData.id}
             </h1>
             <p className="text-gray-600">Review and approve patient medications</p>
           </div>
         </div>
-        <span className={getStatusBadge(reconciliation.status)}>
-          {reconciliation.status.replace('_', ' ')}
+        <span className={getStatusBadge(reconciliationData.status)}>
+          {reconciliationData.status.replace('_', ' ')}
         </span>
       </div>
 
@@ -267,12 +243,12 @@ const ReconciliationDetail: React.FC = () => {
               <p className="font-medium text-gray-700">Started</p>
               <p className="text-gray-900 flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
-                {new Date(reconciliation.created_at).toLocaleString()}
+                {new Date(reconciliationData.created_at).toLocaleString()}
               </p>
             </div>
             <div>
               <p className="font-medium text-gray-700">Status</p>
-              <p className="text-gray-900">{reconciliation.status.replace('_', ' ')}</p>
+              <p className="text-gray-900">{reconciliationData.status.replace('_', ' ')}</p>
             </div>
           </div>
         </div>
