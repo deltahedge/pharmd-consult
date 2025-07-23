@@ -11,11 +11,17 @@ PharmD Consult provides healthcare providers and pharmacists with tools to:
 - Detect medication conflicts and interactions
 - Generate detailed consultation reports
 
-## 🚀 Live Demo
+## 🚀 Live Application
 
-- **Frontend**: [http://localhost:3000](http://localhost:3000)
-- **Backend API**: [http://localhost:8000](http://localhost:8000)
-- **API Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
+**Production Deployment (Render.com):**
+- **Frontend**: https://pharmd-consult-frontend.onrender.com
+- **Backend API**: https://pharmd-consult.onrender.com
+- **API Documentation**: https://pharmd-consult.onrender.com/docs
+
+**Local Development:**
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **API Documentation**: http://localhost:8000/docs
 
 ## 🏗️ Architecture
 
@@ -27,14 +33,16 @@ PharmD Consult provides healthcare providers and pharmacists with tools to:
 - **Routing**: React Router 7
 - **Authentication**: JWT-based with context management
 - **Icons**: Lucide React
+- **Deployment**: Render Static Site
 
 ### Backend
 - **Framework**: FastAPI 0.104.1 with Python
-- **Database**: SQLAlchemy ORM with PostgreSQL support
+- **Database**: SQLAlchemy ORM with PostgreSQL (production) / SQLite (development)
 - **Authentication**: JWT tokens with bcrypt hashing
 - **File Processing**: OCR with Tesseract and OpenCV
 - **API Documentation**: Automatic OpenAPI/Swagger docs
 - **Database Migrations**: Alembic
+- **Deployment**: Render Web Service with Docker
 
 ## ✅ Current Features
 
@@ -51,9 +59,28 @@ PharmD Consult provides healthcare providers and pharmacists with tools to:
 - ✅ Responsive table view with age calculation
 - ✅ Real-time updates with optimistic UI
 
-### 📊 Dashboard
+### 💊 Medication Management
+- ✅ Medication CRUD operations
+- ✅ Multiple data sources (photo, pharmacy, EMR, manual)
+- ✅ NDC number tracking and validation
+- ✅ Dosage and frequency management
+
+### 🔍 Medication Reconciliation
+- ✅ Step-by-step reconciliation workflow
+- ✅ Conflict detection and resolution
+- ✅ Provider approval system
+- ✅ Reconciliation history tracking
+
+### 📷 OCR & Image Processing
+- ✅ Medication bottle/label OCR
+- ✅ Image preprocessing and enhancement
+- ✅ Confidence scoring for extracted text
+- ✅ Manual correction interface
+
+### 📊 Dashboard & Analytics
 - ✅ Provider overview with key statistics
 - ✅ Recent reconciliation summaries
+- ✅ Interactive charts and visualizations
 - ✅ Quick action cards for common tasks
 - ✅ Responsive sidebar navigation
 
@@ -62,47 +89,54 @@ PharmD Consult provides healthcare providers and pharmacists with tools to:
 - ✅ Comprehensive error handling
 - ✅ Database migrations and seeding
 - ✅ File upload capabilities
-- ✅ CORS configuration for development
+- ✅ CORS configuration for production
+- ✅ Health check endpoints
 
-## 🔄 Upcoming Features
+## 🚀 Deployment
 
-### 💊 Medication Management
-- [ ] Medication CRUD operations
-- [ ] Multiple data sources (photo, pharmacy, EMR, manual)
-- [ ] NDC number tracking and validation
-- [ ] Dosage and frequency management
+### Production Deployment (Render.com)
 
-### 🔍 Medication Reconciliation
-- [ ] Step-by-step reconciliation workflow
-- [ ] Conflict detection and resolution
-- [ ] Provider approval system
-- [ ] Reconciliation history tracking
+The application is deployed on Render.com's free tier:
 
-### 📷 OCR & Image Processing
-- [ ] Medication bottle/label OCR
-- [ ] Image preprocessing and enhancement
-- [ ] Confidence scoring for extracted text
-- [ ] Manual correction interface
+**Backend Configuration:**
+- Web Service with Docker
+- PostgreSQL database automatically provisioned
+- Environment variables configured
+- Health checks enabled
 
-### 📈 Advanced Features
-- [ ] Medication interaction checking
-- [ ] Reporting and analytics
-- [ ] Export capabilities
-- [ ] Multi-provider support
+**Frontend Configuration:**
+- Static Site deployment
+- SPA routing with `_redirects` file
+- Environment variables for API URL
+- Automatic deployments from GitHub
 
-## 🛠️ Development Setup
+**Environment Variables:**
 
-### Prerequisites
+Backend:
+```env
+SECRET_KEY=production-secret-key
+DATABASE_URL=${{DATABASE_URL}}
+CORS_ORIGINS=["https://pharmd-consult-frontend.onrender.com"]
+```
+
+Frontend:
+```env
+VITE_API_URL=https://pharmd-consult.onrender.com
+```
+
+### Local Development Setup
+
+#### Prerequisites
 - **Node.js** 18+ and npm
 - **Python** 3.11+
 - **PostgreSQL** (optional, defaults to SQLite)
-- **WSL2** (Windows Subsystem for Linux) - Recommended for Windows development
+- **WSL2** (recommended for Windows development)
 
-### Quick Start
+#### Quick Start
 
 1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/deltahedge/pharmd-consult.git
 cd pharmd-consult
 ```
 
@@ -113,7 +147,7 @@ python -m venv venv
 
 # Windows
 venv\Scripts\activate
-# Linux/Mac
+# Linux/Mac/WSL
 source venv/bin/activate
 
 pip install -r requirements.txt
@@ -141,6 +175,7 @@ npm run dev
 DATABASE_URL=sqlite:///./pharmdconsult.db
 SECRET_KEY=your-secret-key-here
 ACCESS_TOKEN_EXPIRE_MINUTES=30
+CORS_ORIGINS=["http://localhost:3000","http://localhost"]
 ```
 
 **Frontend Configuration**:
@@ -157,8 +192,10 @@ pharmd-consult/
 │   │   │   └── endpoints/  # Individual endpoint modules
 │   │   ├── core/           # Configuration and database
 │   │   ├── models/         # SQLAlchemy models
-│   │   └── services/       # Business logic
+│   │   ├── services/       # Business logic (planned)
+│   │   └── utils/          # Utility functions (planned)
 │   ├── alembic/            # Database migrations
+│   ├── Dockerfile          # Docker configuration
 │   └── requirements.txt    # Python dependencies
 ├── frontend/               # React frontend
 │   ├── src/
@@ -167,7 +204,15 @@ pharmd-consult/
 │   │   ├── pages/          # Route components
 │   │   ├── services/       # API client
 │   │   └── types/          # TypeScript definitions
+│   ├── public/
+│   │   └── _redirects      # SPA routing for deployment
+│   ├── Dockerfile          # Docker configuration
 │   └── package.json        # Node.js dependencies
+├── docs/                   # Documentation
+├── docker-compose.yml      # Local development
+├── render.yaml            # Render Blueprint (optional)
+├── deploy.sh              # Deployment script
+├── test-docker.sh         # Docker testing script
 └── start-dev.sh           # Development startup script
 ```
 
@@ -185,26 +230,53 @@ cd frontend
 npm test
 ```
 
-## 🚀 Deployment
-
-### Production Build
+### Docker Testing
 ```bash
-# Backend
-cd backend
-pip install -r requirements.txt
-alembic upgrade head
-
-# Frontend  
-cd frontend
-npm run build
-npm run preview
+# Test Docker builds locally
+./test-docker.sh
 ```
 
-### Environment Setup
-- Set secure `SECRET_KEY` for JWT tokens
-- Configure production database (PostgreSQL recommended)
-- Set up proper CORS origins for production domain
-- Configure file upload storage (local or cloud)
+## 🔄 Deployment Pipeline
+
+### Automatic Deployments
+- **GitHub Integration**: Both services automatically deploy when changes are pushed to the main branch
+- **Build Process**: TypeScript compilation, Docker builds, and database migrations handled automatically
+- **Health Checks**: Automatic health monitoring and restart policies
+
+### Manual Deployment
+```bash
+# Deploy to Render using CLI (optional)
+./deploy.sh
+```
+
+## 🛠️ Next Steps & Roadmap
+
+### 📈 Immediate Improvements
+- [ ] Remove debug logging from production code
+- [ ] Add comprehensive error boundary components
+- [ ] Implement user profile management
+- [ ] Add medication interaction checking APIs
+- [ ] Enhanced OCR accuracy with better preprocessing
+
+### 🔒 Security Enhancements
+- [ ] Rate limiting on API endpoints
+- [ ] Input validation middleware
+- [ ] Audit logging for sensitive operations
+- [ ] Two-factor authentication option
+
+### 📊 Advanced Features
+- [ ] Detailed reporting and analytics
+- [ ] Export capabilities (PDF, CSV)
+- [ ] Multi-provider/organization support
+- [ ] Mobile app development
+- [ ] Integration with external pharmacy systems
+
+### 🏥 Clinical Features
+- [ ] Drug interaction database integration
+- [ ] Allergy checking and alerts
+- [ ] Clinical decision support rules
+- [ ] Integration with EMR systems
+- [ ] Prescription verification workflows
 
 ## 🤝 Contributing
 
@@ -221,23 +293,46 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📚 Additional Documentation
 
 - **[Patient Management Guide](docs/PATIENT_MANAGEMENT.md)** - Detailed patient management documentation
-- **[API Reference](http://localhost:8000/docs)** - Interactive API documentation
-- **[Frontend Components](frontend/src/components/)** - Reusable React components
+- **[Deployment Guide](README-DEPLOYMENT.md)** - Comprehensive deployment instructions
+- **[Progress Log](README-PROGRESS.md)** - Development progress and milestones
+- **[API Reference](https://pharmd-consult.onrender.com/docs)** - Interactive API documentation
 
-## 🔗 Links
+## 🔗 Quick Links
 
-- **API Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
-- **Frontend Application**: [http://localhost:3000](http://localhost:3000)
-- **Database Admin**: SQLite browser or PostgreSQL admin tools
+- **Live Application**: https://pharmd-consult-frontend.onrender.com
+- **API Documentation**: https://pharmd-consult.onrender.com/docs
+- **GitHub Repository**: https://github.com/deltahedge/pharmd-consult
+- **Issue Tracker**: https://github.com/deltahedge/pharmd-consult/issues
 
-## 💻 WSL Development Notes
+## 💻 Development Notes
 
+### WSL2 Development
 This application runs successfully on WSL2 (Windows Subsystem for Linux):
 - All development servers work seamlessly in WSL
 - Frontend accessible at `localhost:3000` from Windows browser
 - Backend API accessible at `localhost:8000` from Windows browser
 - Database file stored in WSL filesystem for optimal performance
 
+### Docker Support
+- Full Docker containerization for both services
+- Docker Compose for local development
+- Production-ready Docker builds
+- Multi-stage builds for optimized images
+
+### Database Management
+- Alembic migrations for schema changes
+- SQLite for local development
+- PostgreSQL for production
+- Automatic database provisioning on Render
+
 ---
+
+## 🎯 Getting Started
+
+1. **Try the Live Demo**: Visit https://pharmd-consult-frontend.onrender.com
+2. **Register an Account**: Create a new healthcare provider account
+3. **Explore Features**: Add patients, medications, and try the reconciliation workflow
+4. **Development**: Clone the repo and follow the local setup instructions
+5. **Deploy Your Own**: Fork the repository and deploy to Render using the provided configurations
 
 **PharmD Consult** - Empowering healthcare providers with intelligent medication management solutions.
